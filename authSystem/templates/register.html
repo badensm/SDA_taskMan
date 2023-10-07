@@ -7,5 +7,16 @@
 </head>
 <body>
     <h2>New user registration</h2>
+
+    {% if error %}
+        <h3>{{error}}</h3>
+    {% endif %}
+
+    <form action="{% url 'register' %}" method="post">
+        {{form}}
+        {% csrf_token %}
+        <button type="Submit">Generate</button>
+    </form>
+
 </body>
 </html>
