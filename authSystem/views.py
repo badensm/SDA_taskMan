@@ -1,7 +1,10 @@
-from django.shortcuts import render
+from django.forms import ValidationError
+from django.shortcuts import redirect, render
 from .forms import RegisterForm
 from django.contrib.auth.models import User
 from .utils import check_email
+from django.contrib.auth.password_validation import validate_password
+
 
 def register(request):
     if request.method == 'GET':
@@ -23,11 +26,18 @@ def register(request):
             else:
                 email_valid = check_email(email)  
                 if email_valid:
-                    pass
+                    try:
+                        validate_password(password1)
+                    except ValidationError as e:
+                        return render(request, 'register.html', {'password_errors': e.messages, 'form': RegisterForm()})
+                    else:
+                        user = User.objects.create_user(username=username,email=email,password=password1)
+                        return redirect('home')
+
                 else:
                     error = 'Invalid e-mail. try again!'  
         else:
             error = 'Passwors must match. Try again!'
-            
+
     return render(request, 'register.html',{'form':RegisterForm(), 'error': error})
         

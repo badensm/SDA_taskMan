@@ -8,6 +8,16 @@
 <body>
     <h2>New user registration</h2>
 
+    {% if password_errors %}
+    <h3>Password incorrect!</h3>
+    <ul>
+        {% for pass_err in password_errors %}
+        <li>{{pass_err}}</li>
+        {% endfor %}
+    </ul>
+
+    {% endif %}
+
     {% if error %}
         <h3>{{error}}</h3>
     {% endif %}
