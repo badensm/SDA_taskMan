@@ -5,9 +5,29 @@
 
 <h1>Your tasks</h1>
 
-{% for task in tasks%}
-<p>{{task.title}}</p>
-{% endfor %}
+{% if current %}
+<h3>Current:</h3>
+<ul>
+    {% for task in current%}
+    <li><a href="{% url 'detail_task' task.id %}"><p>{{task.title}}</p></a>
+    {% endfor %}
+         
+</ul>
+{% else %}
+<h3>No current tasks</h3>
+{% endif %}
+
+{% if completed %}
+<h3>Completed:</h3>
+<ul>
+    {% for task in completed%}
+    <li><a href="{% url 'detail_task' task.id %}"><p>{{task.title}}</p></a>
+    {% endfor %}
+</ul>
+{% else %}
+<h3>No completed tasks</h3>
+{% endif %}
+
     
 {% endblock content %}
     

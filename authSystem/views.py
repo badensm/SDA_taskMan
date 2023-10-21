@@ -6,6 +6,7 @@ from .utils import check_email
 from django.contrib.auth.password_validation import validate_password
 from django.contrib.auth.forms import AuthenticationForm 
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 
 def register(request):
     if request.method == 'GET':
@@ -59,7 +60,8 @@ def login_user(request):
             else:
                 error = f'User {username} does not exist'
             return render(request, 'login_user.html', {'form': AuthenticationForm(),'error':error})
-        
+
+@login_required(login_url='login_user')        
 def logout_user(request):
         logout(request)
         return redirect('home')

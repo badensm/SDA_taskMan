@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+
+{% if error %}
+<h3>{{error}}</h3>
+{% endif %}
+
+    
+{% if task.complete_date %}
+    <h3>Title: {{task.title}}</h3> 
+    {% if task.desc %}
+    <p>Desciption: {{task.desc}}</p>
+    {% endif %}
+    <p>Created: {{task.create_date}}</p>       
+    <p>Completed: {{task.complete_date}}</p>
+{% else %}
+
+    <form action="{% url 'detail_task' task.id %}" method="post">
+        {{form}}  
+        {% csrf_token %}
+        <button type="Submit">Submit changes</button>  
+    </form>
+    <a href="{% url 'complete_task' task.id %}">Complete task</a>
+
+{% endif %}
+    
+<a href="{% url 'delete_task' task.id %}">Delete task</a>
+
+    
+{% endblock content %}
+    
